@@ -56,7 +56,7 @@ jobs:
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Apply Terraform changes
-        run: terraform apply tfplan -auto-approve
+        run: terraform apply -auto-approve tfplan
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Clean up Terraform artifacts
