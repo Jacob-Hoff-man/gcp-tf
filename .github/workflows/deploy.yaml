@@ -42,22 +42,22 @@ jobs:
 
       - name: Initialize Terraform
         run: terraform init
-        working-directory: ${{env.TF_CONFIG_DIR_PATH}}
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Validate Terraform configuration
         run: terraform validate
-        working-directory: ${{env.TF_CONFIG_DIR_PATH}}
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: echo
-        run: echo "${{ env.TF_CONFIG_DIR_PATH }}"
+        run: echo "${{ env.TF_CONFIGURATION_DIR_PATH }}"
 
       - name: Plan Terraform deployment
         run: terraform plan -out=tfplan
-        working-directory: ${{env.TF_CONFIG_DIR_PATH}}
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Apply Terraform changes
         run: terraform apply tfplan -auto-approve
-        working-directory: ${{env.TF_CONFIG_DIR_PATH}}
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Clean up Terraform artifacts
         run: rm -f tfplan
