@@ -29,13 +29,15 @@ jobs:
           version: ">= 363.0.0"
           project_id: ${{ env.PROJECT_ID }}
 
-      - name: Configure Terraform
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.3.0
+
+      - name: Set GCP project and zone
         run: |
-          echo ${{ secrets.GCLOUD_SERVICE_ACCOUNT_KEY }} > key.json
-          gcloud auth activate-service-account --key-file=key.json
-          gcloud config set project ${{env.PROJECT_ID}}
-          gcloud config set compute/zone ${{env.COMPUTE_ZONE}}
-          rm -f key.json
+          gcloud config set project ${{ env.PROJECT_ID }}
+          gcloud config set compute/zone ${{ env.COMPUTE_ZONE }}
 
       - name: Initialize Terraform
         run: terraform init
