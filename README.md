@@ -40,3 +40,4 @@ terraform destroy
 - Set up ingress firewall rules to ssh into VM
    - `firewall.tf` - Configures a set of policies that control inbound and outbound traffic to the VM and other resources in the VPC
 - Enable the internet connectivity for VM with Internal IP by creating a NAT gateway . Using NAT, VM can connect to internet without any external IP
+- Write a Github workflow to deploy the Terraform config to GCP
