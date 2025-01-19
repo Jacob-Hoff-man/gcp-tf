@@ -5,6 +5,7 @@ on:
       - main
 env:
   PROJECT_ID: valid-micron-448222-n5
+  COMPUTE_ZONE: us-east1-b
 
 jobs:
   terraform:
@@ -28,8 +29,8 @@ jobs:
         run: |
           echo ${{ secrets.GCLOUD_SERVICE_ACCOUNT_KEY }} > key.json
           gcloud auth activate-service-account --key-file=key.json
-          gcloud config set project YOUR_PROJECT_ID
-          gcloud config set compute/zone YOUR_COMPUTE_ZONE
+          gcloud config set project ${{env.PROJECT_ID}}
+          gcloud config set compute/zone ${{env.COMPUTE_ZONE}}
           rm -f key.json
 
       - name: Initialize Terraform
