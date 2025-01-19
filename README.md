@@ -41,6 +41,7 @@ terraform destroy
    - `firewall.tf` - Configures a set of policies that control inbound and outbound traffic to the VM and other resources in the VPC
 - Enable the internet connectivity for VM with Internal IP by creating a NAT gateway . Using NAT, VM can connect to internet without any external IP
 - Write a Github workflow to deploy the Terraform config to GCP
+- [Enable Cloud Resource Manager API in GCP](https://console.cloud.google.com/apis/library/cloudresourcemanager.googleapis.com?project=valid-micron-448222-n5&rapt=AEjHL4PifXZueBXv-PSQxCRpANkAN13j8i-VXpP8Jk7wAiwJke4czCGG714wgvXkLjI0mUjOsGsL4WsgyL2jFWVeJ1n3qe64xjXUc8BpoiLoKQ57AtBxSOM&authuser=2&inv=1&invt=AbnSWA_)
 - How to deploy:
 ```
 git commit
