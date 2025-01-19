@@ -1,6 +1,6 @@
 # GCP Terraform Tutorials
 
-## [Tutorial 1](https://medium.com/google-cloud/getting-started-with-terraform-on-google-cloud-v1-0-67d2ec912641)
+## [Tutorial 1](https://medium.com/google-cloud/getting-started-with-terraform-on-google-cloud-v1-0-67d2ec912641) - Bootstrap (setup, service account, VPC, TF-state in GCP bucket)
 - Set up GCP account + project
 - Install Terraform
 - Install Gcloud CLI
@@ -30,3 +30,13 @@ terraform apply
 // delete all resources
 terraform destroy
 ```
+
+## [Tutorial 2](https://medium.com/google-cloud/terraform-on-google-cloud-v1-1-deploying-vm-with-github-actions-446bc1061420) - Deploying VM With GitHub Actions
+- Set up GitHub account + repo
+- Add owner service acount key to GitHub repo secrets
+- Update `variables.tf` from part 1
+- Update `terraform.tfvars` from part 1
+- `vm.tf` - Configure VM using Terraform
+- Set up ingress firewall rules to ssh into VM
+   - `firewall.tf` - Configures a set of policies that control inbound and outbound traffic to the VM and other resources in the VPC
+- Enable the internet connectivity for VM with Internal IP by creating a NAT gateway . Using NAT, VM can connect to internet without any external IP
