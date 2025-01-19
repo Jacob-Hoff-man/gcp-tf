@@ -1,6 +1,6 @@
 resource "google_storage_bucket" "remote-backend" {
   project                     = var.project_id
-  name                        = tfstate-bucket
+  name                        = "${var.project_id}-tfstate-bucket"
   uniform_bucket_level_access = true
   location                    = var.region
 

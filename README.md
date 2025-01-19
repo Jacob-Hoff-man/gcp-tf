@@ -17,5 +17,16 @@
    - `terraform.tfvars` — This file is used to provide values for the variables defined in `variables.tf`
    - `backend.tf` — This will store the terraform state config.
    - `storage.tf` - This will define a google storage bucket and give service account permission it
+- How to deploy:
+```
+terraform init 
 
-   
+terraform fmt --recursive
+
+terraform plan
+
+terraform apply
+
+// delete all resources
+terraform destroy
+```
