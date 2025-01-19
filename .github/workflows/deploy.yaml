@@ -6,6 +6,7 @@ on:
 env:
   PROJECT_ID: valid-micron-448222-n5
   COMPUTE_ZONE: us-east1-b
+  TF_CONFIGURATION_DIR_PATH: ./tf-part-2
 
 jobs:
   terraform:
@@ -41,16 +42,19 @@ jobs:
 
       - name: Initialize Terraform
         run: terraform init
-        working-directory: ./tf-part-2
+        working-directory: ${{env.TF_CONFIG_DIR_PATH}}
 
       - name: Validate Terraform configuration
         run: terraform validate
+        working-directory: ${{env.TF_CONFIG_DIR_PATH}}
 
       - name: Plan Terraform deployment
         run: terraform plan -out=tfplan
+        working-directory: ${{env.TF_CONFIG_DIR_PATH}}
 
       - name: Apply Terraform changes
         run: terraform apply tfplan -auto-approve
+        working-directory: ${{env.TF_CONFIG_DIR_PATH}}
 
       - name: Clean up Terraform artifacts
         run: rm -f tfplan
