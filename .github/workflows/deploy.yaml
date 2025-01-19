@@ -48,9 +48,8 @@ jobs:
         run: terraform validate
         working-directory: ${{env.TF_CONFIG_DIR_PATH}}
 
-# 
-      - name: List contents of the working directory
-        run: ls -al ${{ env.TF_CONFIG_DIR_PATH }}
+      - name: echo
+        run: echo "${{ env.TF_CONFIG_DIR_PATH }}"
 
       - name: Plan Terraform deployment
         run: terraform plan -out=tfplan
