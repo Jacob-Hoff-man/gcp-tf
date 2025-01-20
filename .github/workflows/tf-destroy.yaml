@@ -38,4 +38,4 @@ jobs:
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Destroy Terraform Resources
-        run: terrafom destroy -auto-approve
+        run: terraform destroy -auto-approve
