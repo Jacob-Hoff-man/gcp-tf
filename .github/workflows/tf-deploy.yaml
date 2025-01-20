@@ -41,7 +41,7 @@ jobs:
           gcloud config set compute/zone ${{ env.COMPUTE_ZONE }}
 
       - name: Initialize Terraform
-        run: terraform init
+        run: terraform init -reconfigure
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Validate Terraform configuration
