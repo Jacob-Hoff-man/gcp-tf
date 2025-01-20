@@ -1,5 +1,6 @@
 name: Terraform Deployment
 on:
+  workflow_dispatch: # Manually triggered from GitHub UI
   push:
     branches:
       - main
