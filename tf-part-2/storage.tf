@@ -7,6 +7,10 @@ resource "google_storage_bucket" "remote-backend" {
   versioning {
     enabled = true
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "google_storage_bucket_iam_member" "remote" {

@@ -5,6 +5,8 @@ env:
   PROJECT_ID: valid-micron-448222-n5
   COMPUTE_ZONE: us-east1-b
   TF_CONFIGURATION_DIR_PATH: ./tf-part-2
+  TF_STATE_GCS_BUCKET: tfstate-bucket
+  TF_STATE_GCS_PREFIX: terraform/state
 
 jobs:
   terraform:
@@ -34,7 +36,9 @@ jobs:
           terraform_version: 1.10
 
       - name: Initialize Terraform
-        run: terraform init
+        run: terraform init \
+          -backend-config="bucket=${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }}" \
+          -backend-config="prefix=${{ env.TF_STATE_GCS_PREFIX }}"
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Destroy Terraform Resources
