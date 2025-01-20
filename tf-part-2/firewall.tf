@@ -1,7 +1,7 @@
 #Ingress firewall rules
 resource "google_compute_firewall" "ssh" {
   name    = "vm-ssh"
-  network = var.vpc_name
+  network = "projects/${var.project_id}/global/networks/${var.vpc_name}"
   project = var.project_id
 
   allow {
@@ -18,7 +18,7 @@ resource "google_compute_firewall" "ssh" {
 # Egress rules
 resource "google_compute_firewall" "egress" {
   name     = "egress-firewall"
-  network  = var.vpc_name
+  network  = "projects/${var.project_id}/global/networks/${var.vpc_name}"
   project  = var.project_id
   priority = 1000
 
