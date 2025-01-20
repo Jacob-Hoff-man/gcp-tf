@@ -45,6 +45,20 @@ jobs:
         run: terraform init
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
+      - name: Import existing resources
+        run: |
+          # Import the firewall resource
+          terraform import google_compute_firewall.ssh projects/${{ env.PROJECT_ID }}/global/firewalls/vm-ssh || echo "Firewall resource already imported."
+
+          # Import the network resource
+          terraform import google_compute_network.default projects/${{ env.PROJECT_ID }}/global/networks/base-vpc || echo "Network resource already imported."
+
+          # Import the storage bucket
+          terraform import google_storage_bucket.remote-backend projects/${{ env.PROJECT_ID }}/buckets/remote-backend || echo "Storage bucket already imported."
+
+          # Import the service account
+          terraform import google_service_account.default projects/${{ env.PROJECT_ID }}/serviceAccounts/main-medium-vm-sa@${{ env.PROJECT_ID }}.iam.gserviceaccount.com || echo "Service account already imported."
+
       - name: Validate Terraform configuration
         run: terraform validate
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
