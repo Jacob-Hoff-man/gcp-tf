@@ -46,6 +46,7 @@ jobs:
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Import existing resources
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
         run: |
           # Import the firewall resource
           terraform import google_compute_firewall.ssh projects/${{ env.PROJECT_ID }}/global/firewalls/vm-ssh || echo "Firewall resource already imported."
