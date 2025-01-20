@@ -57,7 +57,7 @@ jobs:
 
       - name: Initialize Terraform (Local)
         if: ${{ env.resource_exists == 'false' }}
-        run: terraform init
+        run: terraform init -backend=false
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Plan Terraform deployment (Local)
