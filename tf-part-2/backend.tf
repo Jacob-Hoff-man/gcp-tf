@@ -1,5 +1,6 @@
 terraform {
-  backend "local" {
+  backend "gcs" {
+    bucket = "${var.project_id}-tfstate-bucket"
     path = "terraform.tfstate"
   }
 }
