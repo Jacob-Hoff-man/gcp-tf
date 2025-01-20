@@ -16,5 +16,5 @@ resource "google_storage_bucket" "remote-backend" {
 resource "google_storage_bucket_iam_member" "remote" {
   bucket = google_storage_bucket.remote-backend.name
   role   = "roles/storage.admin"
-  member = "serviceAccount:owner-service-account@valid-micron-448222-n5.iam.gserviceaccount.com"
+  member = "serviceAccount:owner-service-account@${var.project_id}.iam.gserviceaccount.com"
 }

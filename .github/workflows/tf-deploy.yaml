@@ -60,11 +60,6 @@ jobs:
         run: terraform init -backend=false
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
-      - name: Plan Terraform deployment (Local)
-        if: ${{ env.resource_exists == 'false' }}
-        run: terraform plan -target=google_storage_bucket.remote-backend
-        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
-
       - name: Apply Terraform changes (Local)
         if: ${{ env.resource_exists == 'false' }}
         run: terraform apply -target=google_storage_bucket.remote-backend
