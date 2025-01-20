@@ -76,7 +76,7 @@ jobs:
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Initialize Terraform (Remote)
-        run: terraform init -backend-config="bucket=${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }}" -backend-config="prefix=${{ env.TF_STATE_GCS_PREFIX }}"
+        run: terraform init -force-copy -backend-config="bucket=${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }}" -backend-config="prefix=${{ env.TF_STATE_GCS_PREFIX }}"
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Validate Terraform configuration (Remote)
