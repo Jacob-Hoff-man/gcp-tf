@@ -44,9 +44,7 @@ jobs:
           gcloud config set compute/zone ${{ env.COMPUTE_ZONE }}
 
       - name: Initialize Terraform
-        run: terraform init \
-          -backend-config="bucket=${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }}" \
-          -backend-config="prefix=${{ env.TF_STATE_GCS_PREFIX }}"
+        run: terraform init -backend-config="bucket=${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }}" -backend-config="prefix=${{ env.TF_STATE_GCS_PREFIX }}"
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Validate Terraform configuration
