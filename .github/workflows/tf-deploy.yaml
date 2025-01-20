@@ -62,7 +62,7 @@ jobs:
 
       - name: Apply Terraform changes (Local)
         if: ${{ env.resource_exists == 'false' }}
-        run: terraform apply -target=google_storage_bucket.remote-backend
+        run: terraform apply -target=google_storage_bucket.remote-backend -auto-approve
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
       - name: Configure GCS Backend for Terraform state
