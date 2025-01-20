@@ -48,9 +48,6 @@ jobs:
         run: terraform validate
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
-      - name: echo
-        run: echo "${{ env.TF_CONFIGURATION_DIR_PATH }}"
-
       - name: Plan Terraform deployment
         run: terraform plan -out=tfplan
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}

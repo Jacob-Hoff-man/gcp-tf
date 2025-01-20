@@ -1,0 +1,41 @@
+name: Terraform Deployment
+on:
+  workflow_dispatch: # Manually triggered from GitHub UI
+env:
+  PROJECT_ID: valid-micron-448222-n5
+  COMPUTE_ZONE: us-east1-b
+  TF_CONFIGURATION_DIR_PATH: ./tf-part-2
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCLOUD_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: ">= 363.0.0"
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10
+
+      - name: Initialize Terraform
+        run: terraform init
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
+
+      - name: Destroy Terraform Resources
+        run: terrafom destroy -auto-approve
