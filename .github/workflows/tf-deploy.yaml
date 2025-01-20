@@ -33,29 +33,56 @@ jobs:
           version: ">= 363.0.0"
           project_id: ${{ env.PROJECT_ID }}
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.10
-
       - name: Set GCP project and zone
         run: |
           gcloud config set project ${{ env.PROJECT_ID }}
           gcloud config set compute/zone ${{ env.COMPUTE_ZONE }}
 
-      - name: Initialize Terraform
+      - name: Check if Terraform remote backend GCS bucket exists
+        run: |
+          # Use the gcloud command to check if the GCS bucket exists
+          BUCKET_EXISTS=$(gcloud storage buckets describe gs://${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }} --format="value(name)" || echo "NOT_FOUND")
+          if [[ "$BUCKET_EXISTS" != "NOT_FOUND" ]]; then
+            echo "Bucket ${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }} exists"
+            echo "resource_exists=true" >> $GITHUB_ENV  # Set environment variable to true
+          else
+            echo "Bucket ${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }} does not exist"
+            echo "resource_exists=false" >> $GITHUB_ENV  # Set environment variable to false
+          fi
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10
+
+      - name: Initialize Terraform (Local)
+        if: ${{ env.resource_exists == 'false' }}
+        run: terraform init
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
+
+      - name: Plan Terraform deployment (Local)
+        if: ${{ env.resource_exists == 'false' }}
+        run: terraform plan -target=google_storage_bucket.remote-backend
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
+
+      - name: Apply Terraform changes (Local)
+        if: ${{ env.resource_exists == 'false' }}
+        run: terraform apply -target=google_storage_bucket.remote-backend
+        working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
+
+      - name: Initialize Terraform (Remote)
         run: terraform init -backend-config="bucket=${{ env.PROJECT_ID }}-${{ env.TF_STATE_GCS_BUCKET }}" -backend-config="prefix=${{ env.TF_STATE_GCS_PREFIX }}"
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
-      - name: Validate Terraform configuration
+      - name: Validate Terraform configuration (Remote)
         run: terraform validate
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
-      - name: Plan Terraform deployment
+      - name: Plan Terraform deployment (Remote)
         run: terraform plan -out=tfplan
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
-      - name: Apply Terraform changes
+      - name: Apply Terraform changes (Remote)
         run: terraform apply -auto-approve tfplan
         working-directory: ${{env.TF_CONFIGURATION_DIR_PATH}}
 
